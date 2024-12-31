@@ -11,7 +11,7 @@
 
 ```
 uv run ruff check
-uv run sync.py mac
+uv run envctl.py mac
 ```
 
 ## using venv

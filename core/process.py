@@ -1,19 +1,10 @@
 import subprocess
-
-from core.formatter import print_status
-
-# def run_command(cmd) -> str:
-#    try:
-#        print_status(f"running command {cmd}")
-#        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-#        return result.stdout
-#    except subprocess.CalledProcessError as e:
-#        return f"Error: {e.stderr}"
+from core.logger import logger
    
 def run_command(cmd) -> tuple[bool, str, str]:
    """Run a shell command and return its status and output."""
    try:
-       print(f"running command: {' '.join(cmd)}")
+       logger.info(f"running: {' '.join(cmd)}")
        result = subprocess.run(cmd, capture_output=True, text=True)
        success = result.returncode == 0
        

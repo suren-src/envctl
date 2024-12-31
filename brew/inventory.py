@@ -51,7 +51,6 @@ nvm
 openjdk
 podman
 python@3.13
-redis-stack-redisinsight
 ripgrep
 sdkman-cli
 terraform

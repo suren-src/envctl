@@ -1,6 +1,7 @@
+from core.logger import logger
 from core.process import run_command
 from core.formatter import print_status
-from brew.tools import taps, formulae, casks
+from brew.inventory import taps, formulae, casks
 
 def install():
     print_status("\nTaps:")
@@ -22,11 +23,11 @@ def print_output(output: tuple[bool, str, str]):
     success, stdout, stderr = output
     if success:
         if stdout:
-            print(f"✅: {stdout} \n")
+            logger.info(f"✅: {stdout} \n")
         if stderr:  # Handle brew warnings
-            print(f"✅: {stderr} \n")
+            logger.info(f"✅: {stderr} \n")
         else:
-            print("✅ \n")
+            logger.info("✅ \n")
     else:
-        print(f"❌: {stderr} \n")
+        logger.error(f"❌: {stderr} \n")
 
