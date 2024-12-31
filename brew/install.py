@@ -1,5 +1,5 @@
-from utils.process import run_command
-from utils.formatter import print_status
+from core.process import run_command
+from core.formatter import print_status
 from brew.tools import taps, formulae, casks
 
 def install():
@@ -8,25 +8,25 @@ def install():
         res = run_command(["brew", "tap", tap])
         print_output(res)
 
-    # print_status("\nCasks:")
-    # for cask in [cask.strip() for cask in casks.splitlines() if cask.strip()]:
-    #     res = run_command(["brew", "install", "--cask", cask])
-    #     print_output(res)
+    print_status("\nCasks:")
+    for cask in [cask.strip() for cask in casks.splitlines() if cask.strip()]:
+        res = run_command(["brew", "install", "--cask", cask])
+        print_output(res)
 
-    # print_status("\nFormulae:")
-    # for formula in [formula.strip() for formula in formulae.splitlines() if formula.strip()]:
-    #     output = run_command(["brew", "install", formula])
-    #     print_output(output)
+    print_status("\nFormulae:")
+    for formula in [formula.strip() for formula in formulae.splitlines() if formula.strip()]:
+        output = run_command(["brew", "install", formula])
+        print_output(output)
 
 def print_output(output: tuple[bool, str, str]):
     success, stdout, stderr = output
     if success:
         if stdout:
-            print_status(f"Command succeeded: {stdout}", status="success")
+            print(f"✅: {stdout} \n")
         if stderr:  # Handle brew warnings
-            print_status(f"Command succeeded with warning \n: {stderr}", status="warning")
+            print(f"✅: {stderr} \n")
         else:
-            print_status("✅")
+            print("✅ \n")
     else:
-        print_status(f"Command failed: {stderr}", status="error")
+        print(f"❌: {stderr} \n")
 

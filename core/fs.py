@@ -1,5 +1,5 @@
 from pathlib import Path
-from utils.formatter import print_status
+from core.formatter import print_status
 
 def ensure_directory(path):
    full_path = Path.home() / path

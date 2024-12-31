@@ -64,5 +64,4 @@ uv
 watchexec
 zellij
 zplug
-zellij
 """

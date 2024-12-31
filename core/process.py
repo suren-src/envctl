@@ -1,6 +1,6 @@
 import subprocess
 
-from utils.formatter import print_status
+from core.formatter import print_status
 
 # def run_command(cmd) -> str:
 #    try:
@@ -13,7 +13,7 @@ from utils.formatter import print_status
 def run_command(cmd) -> tuple[bool, str, str]:
    """Run a shell command and return its status and output."""
    try:
-       print_status(f"running command {cmd}")
+       print(f"running command: {' '.join(cmd)}")
        result = subprocess.run(cmd, capture_output=True, text=True)
        success = result.returncode == 0
        

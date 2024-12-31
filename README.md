@@ -5,12 +5,13 @@
 - Brew (for macOS)
 - Python
 - `uv` package manager
+- `zsh` (only if not installed)
 
 ## From terminal
 
 ```
 uv run ruff check
-uv run main.py
+uv run sync.py mac
 ```
 
 ## using venv
