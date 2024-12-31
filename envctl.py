@@ -30,18 +30,17 @@ def sync(
             logger.info("Skipping backup")
         
         if "all" in sync_items:
-            #brew.install()
+            brew.install()
             copier = config_manager.Copier()
             copier.copy()
             return
+        
+        if "tools" in sync_items:
+            brew.install()
             
-        # Individual syncs
-        # if "vim" in sync_items:
-        #     vim.sync()
-        # if "tools" in sync_items:
-        #     tools.sync()
-        # if "config" in sync_items:
-        #     config.sync()
+        if "config" in sync_items:
+            copier = config_manager.Copier()
+            copier.copy()
             
         logger.info("Sync completed successfully")
             
