@@ -1,6 +1,8 @@
 import typer
 import brew
+import config_manager.copier
 import core
+import config_manager
 from core.logger import logger
 
 cli = typer.Typer()
@@ -28,8 +30,9 @@ def sync(
             logger.info("Skipping backup")
         
         if "all" in sync_items:
-            brew.install()
-            #config.sync()
+            #brew.install()
+            copier = config_manager.Copier()
+            copier.copy()
             return
             
         # Individual syncs
@@ -50,6 +53,7 @@ if __name__ == "__main__":
     try:
         logger.info('Starting...')
         core.ensure_directory('.envctl')
+        core.ensure_directory('.config')
         cli()
     except Exception as e:
         logger.error(f'Error during execution: {e}', exc_info=True)

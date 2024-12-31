@@ -1,0 +1,16 @@
+layout {
+    pane split_direction="vertical" {
+        pane size="30%" {
+            //plugin location="zellij:strider"
+        }
+        pane split_direction="horizontal" {
+            pane
+            // pane
+        }
+    }
+    pane size=2 borderless=true {
+       plugin location="zellij:status-bar"
+       //plugin location="zellij:tab-bar"
+       //plugin location="zellij:compact-bar"
+    }
+}

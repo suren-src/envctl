@@ -1,0 +1,67 @@
+# -----Aliases----- #
+alias c=cht.sh
+alias k=kubectl
+alias kus=kustomize
+alias lg=lazygit
+alias v=nvim
+alias l=less
+alias z=zellij
+#alias ls=exa
+
+export COLORTERM=truecolor
+export VISUAL=nvim
+export EDITOR=nvim
+# -----Path vars exports----- #
+# local bin
+export PATH=$PATH:$HOME/.local/bin
+
+# Deno
+export PATH="$PATH:$DENO_INSTALL/bin"
+
+# Go and Go based tools compiled from source
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
+
+# Istioctl
+export PATH=$PATH:$HOME/.istioctl/bin
+
+# Linkerd
+export PATH=$PATH:$HOME/.linkerd2/bin
+
+# -----Env vars----- #
+export DENO_INSTALL="$HOME/.deno"
+export NVM_DIR="$HOME/.nvm" # bash autocomplete in bash_config
+
+# ------------------- #
+
+
+# -----Functions----- #
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+
+
+# -------------------- #
+# --- Below should be added after the required tooling is installed --- #
+
+# -----Environments----- #
+
+# should only be added after rust installation (adds to path)
+source "$HOME/.cargo/env" 
+
+# This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
+
+# Launch Chrome and search from terminal
+s () {
+    # e.g: after parsing first arg which is the query, pass all chromium switches as rest of args
+    open -a "Google Chrome.app" 
+    # eval $app
+}

@@ -1,0 +1,17 @@
+[cursor.style]
+blinking = "On"
+shape = "Beam"
+
+[font]
+size = 14.0
+
+[font.normal]
+style = "Regular"
+
+[window]
+opacity = 1.0
+option_as_alt = "OnlyLeft"
+
+[window.dimensions]
+columns = 0
+lines = 0

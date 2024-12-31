@@ -1,16 +1,16 @@
 from pathlib import Path
-from core.formatter import print_status
+from core.logger import logger
 
 def ensure_directory(path):
    full_path = Path.home() / path
    
    if full_path.exists():
-       print_status("Directory found", full_path, "success")
+       logger.info(f"✓ Directory found {full_path}")
        return str(full_path)
        
    try:
        full_path.mkdir(parents=True, exist_ok=True)
-       print_status("Directory created", full_path)
+       logger.info(f"✓ Directory created {full_path}")
        return str(full_path)
    except Exception as e:
-       print_status(f"Error: {str(e)}", full_path, "error")
+       logger.error(f"❌ Error: {e}")

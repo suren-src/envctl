@@ -1,0 +1,32 @@
+export PATH=$PATH:/usr/local/Cellar/protobuf/3.19.4/bin/
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
+alias kafkatopics=/usr/local/kafka/bin/kafka-topics.sh
+alias kafkabin=/usr/local/kafka/bin
+
+export GOPATH=$HOME/go
+export GONOPROXY=none
+export KUBE_CONFIG="~/.kube/config"
+
+fv() {
+fzf --preview 'bat --style=numbers --color=always {}' \
+    --preview-window 'right:70%:wrap' \
+    --bind 'alt-j:down,alt-k:up' \
+    --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
+    --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
+    --bind 'enter:execute(nvim {} < /dev/tty)' \
+    --bind 'ctrl-space:execute(code {})'
+}
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
