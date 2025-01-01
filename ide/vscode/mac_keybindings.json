@@ -1,0 +1,51 @@
+[
+    {
+        "key": "cmd+alt+h",
+        "command": "workbench.action.positionPanelLeft"
+    },
+    {
+        "key": "cmd+alt+l",
+        "command": "workbench.action.positionPanelRight"
+    },
+    {
+        "key": "cmd+alt+j",
+        "command": "workbench.action.positionPanelBottom"
+    },
+    {
+        "key": "ctrl+alt+m",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "key": "shift+space",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    // unbind, so it doesn't interfere with vim navigation on intellisense
+    {
+        "key": "ctrl+k",
+        "command": "-deleteAllRight",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "shift+cmd+n",
+        "command": "explorer.newFile"
+    },
+    // {
+    //     "key": "cmd+k+i",
+    //     "command": "editor.action.showHover",
+    //     "when": "editorTextFocus"
+    // },
+    {
+        "key": "cmd+j",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "cmd+j",
+        "command": "workbench.action.terminal.focus",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+j",
+        "command": "-workbench.action.terminal.toggleTerminal"
+    }
+]

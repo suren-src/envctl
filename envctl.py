@@ -1,3 +1,4 @@
+from datetime import time
 import typer
 import brew
 import config_manager.copier
@@ -26,13 +27,7 @@ def sync(
             core.backup_configs()
         else:
             logger.info("Skipping backup")
-        
-        if "all" in sync_items:
-            brew.install()
-            copier = config_manager.Copier()
-            copier.copy()
-            return
-        
+                
         if "tools" in sync_items:
             brew.install()
             
@@ -42,9 +37,15 @@ def sync(
         if "nvim" in sync_items:
             ide.Nvim().setup()
 
-        # if "vscode" in sync_items:
-        #     ide.Vscode().setup()
+        if "vscode" in sync_items:
+            ide.Vscode().setup()
             
+        if "all" in sync_items:
+            brew.install()
+            config_manager.Copier().copy()
+            ide.Nvim().setup()
+            ide.Vscode().setup()
+        
         logger.info("Sync completed successfully")
             
     except Exception as e:
@@ -53,10 +54,10 @@ def sync(
 
 if __name__ == "__main__":
     try:
-        logger.info('Starting...')
-        core.ensure_directory('.envctl')
-        core.ensure_directory('.config')
+        logger.info("Starting...")
+        core.ensure_directory(".envctl")
+        core.ensure_directory(".config")
         cli()
     except Exception as e:
-        logger.error(f'Error during execution: {e}', exc_info=True)
+        logger.error(f"Error during execution: {e}", exc_info=True)
         raise typer.Exit(1)

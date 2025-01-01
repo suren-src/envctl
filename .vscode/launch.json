@@ -6,7 +6,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/envctl.py",
-            "args": ["mac", "sync", "-i", "nvim", "--no-backup"],
+            "args": ["mac", "sync", "-i", "vscode", "--no-backup"],
             "console": "integratedTerminal",
             "justMyCode": true
         }

@@ -21,7 +21,6 @@ bat
 docker-compose  
 deno 
 direnv
-dotnet@8
 fd
 fzf   
 gh     
@@ -50,7 +49,6 @@ neovim
 nvm
 openjdk
 podman
-python@3.13
 ripgrep
 sdkman-cli
 terraform
