@@ -4,6 +4,7 @@ import config_manager.copier
 import core
 import config_manager
 from core.logger import logger
+import ide
 
 cli = typer.Typer()
 mac_app = typer.Typer()
@@ -11,14 +12,11 @@ cli.add_typer(mac_app, name="mac")
 
 @mac_app.command("sync")
 def sync(
-    items: str = typer.Option("all", "--items", "-i", 
-                    help="What to sync: all,config,tools,vim (comma-separated)"),
-    backup: bool = typer.Option(True, "--backup/--no-backup", "-b/-nb", 
-                    help="Whether to backup existing configs before sync")
+        items: str = typer.Option("all", "--items", "-i", 
+                        help="What to sync: all,config,tools,nvim,vscode (comma-separated)"),
+        backup: bool = typer.Option(True, "--backup/--no-backup", "-b/-nb", 
+                        help="Whether to backup existing configs before sync")
     ):
-    """
-    Sync specified items (config files, tools, vim) with optional backup
-    """
     try:
         sync_items = core.utils.validate_sync_items(items)
         logger.info(f"Starting sync for: {', '.join(sync_items)}")
@@ -39,8 +37,13 @@ def sync(
             brew.install()
             
         if "config" in sync_items:
-            copier = config_manager.Copier()
-            copier.copy()
+            config_manager.Copier().copy()
+        
+        if "nvim" in sync_items:
+            ide.Nvim().setup()
+
+        # if "vscode" in sync_items:
+        #     ide.Vscode().setup()
             
         logger.info("Sync completed successfully")
             

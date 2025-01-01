@@ -1,11 +1,10 @@
-import os
 import shutil
 from pathlib import Path
 from core.logger import logger
 
 class Copier:
     def __init__(self):
-        # Get the absolute path to the directory containing this script
+        """Get the absolute path to the directory containing this script"""
         self.base_dir = Path(__file__).parent
         self.files_dir = self.base_dir / "files"
         
@@ -27,33 +26,21 @@ class Copier:
     def copy(self) -> None:
         """Copy configuration files to their respective locations."""
         try:
-            # Get home directory
-            home = Path.home()
-            
-            # Source directories
             config_src = self.files_dir / "config"
-            
-            # Handle config directory copies
+            home = Path.home()
             config_dst = home / ".config"
             
             if not config_src.exists():
                 logger.error("Source config directory not found")
                 return
-
-            # Copy all config files maintaining directory structure
-            for src_path in config_src.rglob("*"):
-                if src_path.is_file():
-                    rel_path = src_path.relative_to(config_src)
-                    dst_path = config_dst / rel_path
-                    self.copy_with_parents(src_path, dst_path)
-
-            # Copy individual files
+            
             file_mappings = {
                 "customrc": ".customrc",
                 "zprofile": ".zprofile",
                 "zshrc": ".zshrc"
             }
 
+            # Copy rc files
             for src_name, dst_name in file_mappings.items():
                 src_path = self.files_dir / src_name
                 if src_path.exists():
@@ -62,13 +49,15 @@ class Copier:
                 else:
                     logger.warning(f"Source file not found: {src_path}")
 
+            # Copy all files in config/ maintaining directory structure
+            for src_path in config_src.rglob("*"):
+                if src_path.is_file():
+                    rel_path = src_path.relative_to(config_src)
+                    dst_path = config_dst / rel_path
+                    self.copy_with_parents(src_path, dst_path)
+
             logger.info("Copy completed successfully")
 
         except Exception as e:
             logger.error(f"Error during copy operation: {str(e)}")
             raise
-
-def copy_files():
-    """Legacy function for backward compatibility"""
-    copier = Copier()
-    copier.copy()

@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Envctl",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/envctl.py",
+            "args": ["mac", "sync", "-i", "nvim", "--no-backup"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

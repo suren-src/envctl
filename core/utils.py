@@ -1,6 +1,6 @@
 from core.logger import logger
 
-VALID_SYNC_TYPES = ["all", "config", "tools", "vim"]
+VALID_SYNC_TYPES = ["all", "config", "tools", "nvim", "vscode"]
 
 def validate_sync_items(items: str) -> list:
     """Validate and parse sync items from comma-separated string"""
