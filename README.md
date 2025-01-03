@@ -5,8 +5,19 @@
 - Brew (for macOS)
 - Python
 - `uv` package manager
-- `zsh` (only if not installed)
+- `zsh` 
 
+## Example of using another shell
+
+```
+- `fish` 
+# Using fish as a default shell
+echo $(which fish) | sudo tee -a /etc/shells
+chsh -s $(which fish)
+# log out
+echo $SHELL
+
+```
 ## From terminal
 
 ```
@@ -22,5 +33,7 @@ source .venv/bin/activate
 uv sync
 python main.py
 ```
+
+
 
 see: https://docs.astral.sh/uv/guides/projects/#managing-dependenciesu

@@ -22,6 +22,9 @@ docker-compose
 deno 
 direnv
 fd
+font-symbols-only-nerd-font
+ffmpeg
+fish
 fzf   
 gh     
 git  
@@ -32,6 +35,7 @@ helix
 helm  
 httpie 
 hugo  
+imagemagick
 istioctl 
 jq 
 jupyterlab  
@@ -49,8 +53,10 @@ neovim
 nvm
 openjdk
 podman
+poppler
 ripgrep
 sdkman-cli
+sevenzip
 terraform
 terragrunt
 tilt
@@ -59,6 +65,11 @@ tokei
 tree
 uv
 watchexec
+yazi
 zellij
-zplug
+zoxide
+zsh-syntax-highlighting
+zsh-autosuggestions
 """
+
+          
