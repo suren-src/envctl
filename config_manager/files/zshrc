@@ -1,8 +1,3 @@
-setopt AUTO_CD
-alias ls='ls --color=auto'
-alias ll='ls -lah --color=auto'
-alias grep='grep --color=auto'
-
 # git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/plugins/zsh-autosuggestions
 # git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.config/zsh/plugins/zsh-syntax-highlighting
 
@@ -61,36 +56,34 @@ fzf_history_search() {
     zle redisplay
 }
 
+# search grep
+sg() {
+    rg --line-number --no-heading --color=always --smart-case ${1:-""} | \
+    fzf --height 40% \
+        --ansi \
+        --delimiter : \
+        --preview 'bat --style=numbers --color=always {1} --highlight-line {2}' \
+        --preview-window 'right:70%:wrap' \
+        --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
+        --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
+        --bind 'enter:execute(nvim {1} +{2} < /dev/tty)' \
+        --bind 'ctrl-space:execute(code {1} --goto {1}:{2})'
+}
+
+fv() {
+fzf --preview 'bat --style=numbers --color=always {}' \
+    --preview-window 'right:70%:wrap' \
+    --bind 'alt-j:down,alt-k:up' \
+    --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
+    --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
+    --bind 'enter:execute(nvim {} < /dev/tty)' \
+    --bind 'ctrl-space:execute(code {})'
+}
+
 # Bind `/` to fzf history search in Vim's normal mode
 zle -N fzf_history_search
 bindkey -M vicmd '/' fzf_history_search
 
 export MANPAGER="sh -c 'col -bx | bat --paging=always --language=man'"
-
-# Additional setup (path, env vars and aliases)
-
-if [ -f ~/.config/shell/common_config ]; then
-    . ~/.config/shell/common_config
-fi
-
-if [ -f ~/.config/shell/zsh_config ]; then
-    . ~/.config/shell/zsh_config
-fi
-
-# custom_config
-if [ -f ~/.customrc ]; then
-    . ~/.customrc
-fi
-
+eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
-
-
-
-
-
-
-
-
-
-
-
