@@ -107,7 +107,11 @@ bindkey -M vicmd '/' hs
 
 zle -N ff
 bindkey -M vicmd '^f' ff
-bindkey -M '^f' ff
+bindkey '^f' ff
+
+if [ -f ~/.customrc]; then
+    . ~/.customrc
+fi
 
 # Tool initializations (must be at end)
 eval "$(zoxide init zsh)"
