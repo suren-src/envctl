@@ -109,7 +109,7 @@ zle -N ff
 bindkey -M vicmd '^f' ff
 bindkey '^f' ff
 
-if [ -f ~/.customrc]; then
+if [ -f ~/.customrc ]; then
     . ~/.customrc
 fi
 
