@@ -1,4 +1,10 @@
+# ghossty +list-themes
 font-size=18
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-window-height=100
-window-width=100
+window-width=120
+window-height=40
+
+# In ~/.config/ghostty/config
+theme = vesper
+#theme = Monokai Pro Light
+macos-titlebar-style = tabs

@@ -52,9 +52,10 @@ mdbook
 neovim
 nvm
 openjdk
-podman
+protobuf
 poppler
 ripgrep
+rustup
 sdkman-cli
 sevenzip
 terraform

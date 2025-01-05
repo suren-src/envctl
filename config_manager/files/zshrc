@@ -1,3 +1,4 @@
+
 # git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/plugins/zsh-autosuggestions
 # git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.config/zsh/plugins/zsh-syntax-highlighting
 
@@ -8,8 +9,30 @@ source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/opt/fzf/shell/key-bindings.zsh
 source $(brew --prefix)/opt/fzf/shell/completion.zsh
 
+# aliases
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias grep='grep --color=auto'
+
+alias dc=yazi # dir change
+alias k=kubectl
+alias kus=kustomize
+alias lg=lazygit
+alias v=nvim
+alias ze=zellij
+alias g=git
+alias ga='git add'
+alias gst='git status'
+alias gc='git commit'
+alias gp='git push'
+
 # Completion
 autoload -Uz compinit && compinit
+setopt HIST_IGNORE_SPACE # don't store commands prefixed ith a space
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
 
 # MenuSelect
 zmodload -i zsh/complist
@@ -41,8 +64,8 @@ SAVEHIST=20000
 HISTFILE=~/.zsh_history
 setopt histignorealldups sharehistory
 
-# Custom function to search history using fzf and exclude line numbers
-fzf_history_search() {
+# history search
+hs() {
     local selected_command
     # Extract history without numbers, pass to fzf, and capture the selected command
     selected_command=$(fc -rl 1 | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//' | fzf --height 40% --reverse --border --inline-info)
@@ -56,7 +79,7 @@ fzf_history_search() {
     zle redisplay
 }
 
-# search grep
+# search rigrep
 sg() {
     rg --line-number --no-heading --color=always --smart-case ${1:-""} | \
     fzf --height 40% \
@@ -70,20 +93,47 @@ sg() {
         --bind 'ctrl-space:execute(code {1} --goto {1}:{2})'
 }
 
-fv() {
-fzf --preview 'bat --style=numbers --color=always {}' \
-    --preview-window 'right:70%:wrap' \
-    --bind 'alt-j:down,alt-k:up' \
-    --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
-    --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
-    --bind 'enter:execute(nvim {} < /dev/tty)' \
-    --bind 'ctrl-space:execute(code {})'
+# find fies
+ff() {
+    fzf --preview 'bat --style=numbers --color=always {}' \
+      --preview-window 'right:70%:wrap' \
+      --bind 'alt-j:down,alt-k:up' \
+      --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
+      --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
+      --bind 'enter:execute(nvim {} < /dev/tty)' \
+      --bind 'ctrl-space:execute(code {})'
 }
 
 # Bind `/` to fzf history search in Vim's normal mode
-zle -N fzf_history_search
-bindkey -M vicmd '/' fzf_history_search
+zle -N hs
+bindkey -M vicmd '/' hs
+
+zle -N ff
+bindkey -M vicmd '\ \ ' hs  # two escaped spaces
+
+
 
 export MANPAGER="sh -c 'col -bx | bat --paging=always --language=man'"
+
+
+# source "$HOME/.cargo/env" 
+
+export PATH=$PATH:$HOME/.local/bin
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
+
+s () {
+    # e.g: after parsing first arg which is the query, pass all chromium switches as rest of args
+    open -a "Google Chrome.app" 
+    # eval $app
+}
+
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
