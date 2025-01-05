@@ -3,7 +3,6 @@
 # Plugin Sources
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 #source $(brew --prefix)/opt/fzf/shell/key-bindings.zsh
 #source $(brew --prefix)/opt/fzf/shell/completion.zsh
 
@@ -59,7 +58,6 @@ alias gc='git commit'
 alias gp='git push'
 
 # Functions
-# history search
 hs() {
     local selected_command
     selected_command=$(fc -rl 1 | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//' | fzf --height 40% --reverse --border --inline-info)
@@ -70,31 +68,27 @@ hs() {
     zle redisplay
 }
 
-# search ripgrep
 sg() {
     rg --line-number --no-heading --color=always --smart-case ${1:-""} | \
     fzf --height 40% \
         --ansi \
         --delimiter : \
         --preview 'bat --style=numbers --color=always {1} --highlight-line {2}' \
-        --preview-window 'right:70%:wrap:+{2}-5' \
+        --preview-window 'right:70%:wrap' \
         --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
         --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
         --bind 'enter:execute(nvim {1} +{2} < /dev/tty)' \
         --bind 'ctrl-space:execute(code {1} --goto {1}:{2})'
 }
 
-# find files
 ff() {
-    local query="$*"
-    fd "$query" | fzf --preview 'bat --style=numbers --color=always {}' \
+    fzf --preview 'bat --style=numbers --color=always {}' \
       --preview-window 'right:70%:wrap' \
       --bind 'alt-j:down,alt-k:up' \
       --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
       --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
       --bind 'enter:execute(nvim {} < /dev/tty)' \
-      --bind 'ctrl-space:execute(code {})' \
-      --query "$query"
+      --bind 'ctrl-space:execute(code {})'
 }
 
 s() {
@@ -106,8 +100,7 @@ zle -N hs
 bindkey -M vicmd '/' hs
 
 zle -N ff
-bindkey -M vicmd '^f' ff
-bindkey -M '^f' ff
+bindkey -M vicmd '\ \ ' ff
 
 # Tool initializations (must be at end)
 eval "$(zoxide init zsh)"
