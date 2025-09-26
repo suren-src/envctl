@@ -6,18 +6,17 @@ sdkman/tap
 """
 
 casks = """
-alacritty
 drawio
 font-hack-nerd-font
 iterm2
-logseq
-unnaturalscrollwheels
 """
 
 formulae = """
 argocd
+awscli
 azure-cli
 bat 
+cmake
 docker-compose  
 deno 
 direnv
@@ -30,6 +29,7 @@ gh
 git  
 go        
 gopls  
+go-task
 graphviz  
 helix 
 helm  
@@ -44,20 +44,17 @@ k9s
 kind
 kubectx
 kubelogin
-kubernetes-cli
 kustomize
 lazygit
 llvm
 mdbook
 neovim
-nvm
-openjdk
 protobuf
 poppler
 ripgrep
-rustup
 sdkman-cli
 sevenzip
+starship
 terraform
 terragrunt
 tilt
