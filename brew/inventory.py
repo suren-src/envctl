@@ -16,6 +16,7 @@ argocd
 awscli
 azure-cli
 bat 
+btop
 cmake
 docker-compose  
 deno 
