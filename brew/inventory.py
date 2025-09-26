@@ -20,6 +20,7 @@ cmake
 docker-compose  
 deno 
 direnv
+fastfetch
 fd
 font-symbols-only-nerd-font
 ffmpeg
