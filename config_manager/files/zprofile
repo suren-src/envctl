@@ -1,6 +1,167 @@
-export HOMEBREW_NO_AUTO_UPDATE=1
+# -----------------------------------------------------------------------------
+# HOMEBREW
+# -----------------------------------------------------------------------------
+alias kafkatopics=/usr/local/kafka/bin/kafka-topics.sh
+alias kafkabin=/usr/local/kafka/bin
 
+export GOPATH=$HOME/go
+export GONOPROXY=none
+export KUBE_CONFIG="~/.kube/config"
+
+# -----------------------------------------------------------------------------
+# HOMEBREW
+# -----------------------------------------------------------------------------
+export HOMEBREW_NO_AUTO_UPDATE=1
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# -----------------------------------------------------------------------------
+# PATH
+# -----------------------------------------------------------------------------
+export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/.tiup/bin
+
+export PATH=$PATH:/usr/local/Cellar/protobuf/3.19.4/bin/
+export PATH="$PATH:/users/$USER/.dotnet/tools"
+export PATH="$PATH:/users/$USER/.duckdb/cli/latest"
+
+# Toolbox App - launch ide from the command line
+export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+
+# -----------------------------------------------------------------------------
+# PACKAGE MANAGERS
+# -----------------------------------------------------------------------------
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 
 export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
+# -----------------------------------------------------------------------------
+# ZSH PLUGINS
+# -----------------------------------------------------------------------------
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# completion setup
+zmodload -i zsh/complist
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# -----------------------------------------------------------------------------
+# HISTORY CONFIG
+# -----------------------------------------------------------------------------
+
+# History Configuration
+HISTSIZE=20000
+SAVEHIST=20000
+HISTFILE=~/.zsh_history
+setopt histignorealldups sharehistory
+setopt HIST_IGNORE_SPACE
+
+# -----------------------------------------------------------------------------
+# KEY BINDINGS
+# -----------------------------------------------------------------------------
+
+# Vim Mode
+bindkey -v
+export KEYTIMEOUT=1
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+# Emacs bindings in insert mode
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+bindkey '^R' history-incremental-search-backward
+bindkey '^P' up-line-or-history
+bindkey '^N' down-line-or-history
+
+# Menu select bindings
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# -----------------------------------------------------------------------------
+# ALIASES
+# -----------------------------------------------------------------------------
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias grep='grep --color=auto'
+alias k=kubectl
+alias kus=kustomize
+alias lg=lazygit
+alias v=nvim
+alias ze=zellij
+alias g=git
+alias ga='git add'
+alias gst='git status'
+alias gc='git commit'
+alias gp='git push'
+
+# -----------------------------------------------------------------------------
+# FUNCTIONS
+# -----------------------------------------------------------------------------
+
+# history search
+hs() {
+    local selected_command
+    selected_command=$(fc -rl 1 | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//' | fzf --height 40% --reverse --border --inline-info)
+    if [[ -n $selected_command ]]; then
+        BUFFER="$selected_command"
+        CURSOR=${#BUFFER}
+    fi
+    zle redisplay
+}
+
+# search ripgrep
+sg() {
+    rg --line-number --no-heading --color=always --smart-case ${1:-""} | \
+    fzf --height 40% \
+        --ansi \
+        --delimiter : \
+        --preview 'bat --style=numbers --color=always {1} --highlight-line {2}' \
+        --preview-window 'right:70%:wrap:+{2}-5' \
+        --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
+        --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
+        --bind 'enter:execute(nvim {1} +{2} < /dev/tty)' \
+        --bind 'ctrl-space:execute(code {1} --goto {1}:{2})'
+}
+
+# find files
+ff() {
+    local query="$*"
+    fd "$query" | fzf --preview 'bat --style=numbers --color=always {}' \
+      --preview-window 'right:70%:wrap' \
+      --bind 'alt-j:down,alt-k:up' \
+      --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up' \
+      --bind 'ctrl-j:preview-down,ctrl-k:preview-up' \
+      --bind 'enter:execute(nvim {} < /dev/tty)' \
+      --bind 'ctrl-space:execute(code {})' \
+      --query "$query"
+}
+
+
+# -----------------------------------------------------------------------------
+# FUNCTION KEY BINDINGS
+# -----------------------------------------------------------------------------
+
+zle -N hs
+bindkey -M vicmd '/' hs
+
+zle -N ff
+bindkey -M vicmd '^f' ff
+bindkey '^f' ff
+
+. "$HOME/.cargo/env"
