@@ -34,6 +34,8 @@ uv sync
 python main.py
 ```
 
-
-
+## example
+```
+uv run envctl.py mac sync tools
+```
 see: https://docs.astral.sh/uv/guides/projects/#managing-dependenciesu
